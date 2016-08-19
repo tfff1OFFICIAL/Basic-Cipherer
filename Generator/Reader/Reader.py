@@ -5,14 +5,16 @@ if os.path.exists(propsLoc) != True:
     print("No properties found, generating a default one.")
     file = open(propsLoc, "w")
 
-    file.write("{")
-    file.write('"letters": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],')
-    file.write('"dummies": [" "],') #Dummies are characters that are ignored in reading, and in writing are randomly placed throughout the document.
-    file.write('"isMultiLine": true')
+    file.write("{\n")
+    file.write('"letters": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],\n')
+    file.write('"dummies": [],\n') #Dummies are characters that are ignored in reading, and in writing are randomly placed throughout the document.
+    file.write('"isMultiLine": true,\n') #whether or not to expect multiline input or multiple single line inputs
+    file.write('"convertCase": true\n') #See Gihub issue #2: https://github.com/tfff1OFFICIAL/Basic-Cipherer/issues/2
     file.write("}")
     file.close()
     print("Done!")
 valueLetters = [""]
+dummyLetters = []
 
 #Read Properties:
 with open(propsLoc) as file:
@@ -21,6 +23,9 @@ with open(propsLoc) as file:
 
 for letter in properties["letters"]:
     valueLetters.append(letter)
+for dummy in properties["dummies"]:
+    dummyLetters.append(dummy)
+convertCase = properties["convertCase"]
 isMultiLine = properties["isMultiLine"]
 print("To execute commands, enter /COMMAND <command> instead of the movementNumber")
 
@@ -56,10 +61,19 @@ while n != "":
         if prevLine.isdigit() == True and len(n) > 0:
             delayedLine = ""
             for letter in n:
-                if valueLetters.index(letter) != -1:
+                if convertCase == True:
+                        #Convert to lower case:
+                        try:
+                            letter = letter.lower()
+
+                if letter in valueLetters:
                     #If the letter is an allowed character then:
                     delayedLine += getLetter(count(getNumber(letter), int(prevLine)))
-                elif letter.isdigit() == True:
+                #Lets numbers through, as long as they aren't dummy letters:
+                elif letter.isdigit() == True and letter not in dummyLetters:
+                    delayedLine += letter
+                #Ignores dummy Letters:
+                elif letter not in dummyLetters:
                     delayedLine += letter
                 #Do some fancy prevLine stuff:
                 if int(prevLine) + 1 > len(valueLetters) - 1:
