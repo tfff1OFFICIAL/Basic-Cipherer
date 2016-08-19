@@ -9,7 +9,7 @@ if os.path.exists(propsLoc) != True:
     file.write('"letters": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],\n')
     file.write('"dummies": [],\n') #Dummies are characters that are ignored in reading, and in writing are randomly placed throughout the document.
     file.write('"isMultiLine": true,\n') #whether or not to expect multiline input or multiple single line inputs
-    file.write('"convertCase": true\n') #See Gihub issue #2: https://github.com/tfff1OFFICIAL/Basic-Cipherer/issues/2
+    file.write('"convertCase": true\n') #See Gihub issue #2: https://github.com/tfff1OFFICIAL/Basic-Cipherer/issues/2 - Upper / Lower case
     file.write("}")
     file.close()
     print("Done!")
