@@ -1,40 +1,44 @@
-letterValues = {
-    "a": 1,
-    "b": 2,
-    "c": 3,
-    "d": 4,
-    "e": 5,
-    "f": 6,
-    "g": 7,
-    "h": 8,
-    "i": 9,
-    "j": 10,
-    "k": 11,
-    "l": 12,
-    "m": 13,
-    "n": 14,
-    "o": 15,
-    "p": 16,
-    "q": 17,
-    "r": 18,
-    "s": 19,
-    "t": 20,
-    "u": 21,
-    "v": 22,
-    "w": 23,
-    "x": 24,
-    "y": 25,
-    "z": 26
-    }
+valueLetters = ["", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
-valueLetters = [NotImplemented, "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+def getNumber(letter):
+    return valueLetters.index(letter)
 
-n = str(-1)
-prevLine = str(-1)
+def count(value, toCount):
+    out = value
+    count = toCount
+    while count > 0:
+        if out != 1:
+            out -= 1
+        else:
+            out = len(valueLetters) - 1
+        count -= 1
+    #print(out)
+    return out
 
+def getLetter(number):
+    return valueLetters[number]
+
+delayedOut = []
+
+n = " "
+prevLine = " "
 while n != "":
     prevLine = n
     n = str(input())
     if n != "":
         if prevLine.isdigit() == True and len(n) > 0:
+            delayedLine = ""
+            for letter in n:
+                if valueLetters.index(letter) != -1:
+                    #If the letter is an allowed character then:
+                    delayedLine += getLetter(count(getNumber(letter), int(prevLine)))
+                #Do some fancy prevLine stuff:
+                if int(prevLine) + 1 > len(valueLetters) - 1:
+                    prevLine = str(1)
+                else:
+                    prevLine = str(int(prevLine) + 1)
+                #print("PrevLine is: %s"%prevLine)
+            delayedOut.append(delayedLine)
 
+for line in delayedOut:
+    print(line)
