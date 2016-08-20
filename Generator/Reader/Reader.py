@@ -47,6 +47,12 @@ def count(value, toCount):
 def getLetter(number):
     return valueLetters[number]
 
+def out(toOut):
+    if isMultiLine == False:
+        print(toOut)
+    else:
+        delayedOut.append(toOut)
+
 delayedOut = []
 
 n = " "
@@ -65,7 +71,8 @@ while n != "":
                         #Convert to lower case:
                         try:
                             letter = letter.lower()
-
+                        except:
+                            print()
                 if letter in valueLetters:
                     #If the letter is an allowed character then:
                     delayedLine += getLetter(count(getNumber(letter), int(prevLine)))
@@ -81,14 +88,40 @@ while n != "":
                 else:
                     prevLine = str(int(prevLine) + 1)
                 #print("PrevLine is: %s"%prevLine)
-            delayedOut.append(delayedLine)
-        elif len(n) > 0:
-            try:
-                n.index("/COMMAND")
-                print("HEY! It's a command!")
-            except:
-                if n.isdigit == False:
-                    print("Unrecognised Input!")
+            out(delayedLine)
+        #Multiple Conversions on the same string (piling conversion on top of conversion):
+        elif len(prevLine) > 1 and " " in prevLine:
+            runningN = n
+            splitPrev = prevLine.split(" ")
+            for prev in splitPrev:
+                if prev.isdigit() == True: 
+                    delayedLine = ""
+                    for letter in runningN:
+                        if convertCase == True:
+                            #Convert to lower case:
+                            try:
+                                letter = letter.lower()
+                            except:
+                                print()
+                        if letter in valueLetters:
+                            #If the letter is an allowed character then:
+                            delayedLine += getLetter(count(getNumber(letter), int(prev)))
+                        #Lets numbers through, as long as they aren't dummy letters:
+                        elif letter.isdigit() == True and letter not in dummyLetters:
+                            delayedLine += letter
+                        #Ignores dummy Letters:
+                        elif letter not in dummyLetters:
+                            delayedLine += letter
+                        #Do some fancy prev stuff:
+                        if int(prev) + 1 > len(valueLetters) - 1:
+                            prev = str(1)
+                        else:
+                            prev = str(int(prev) + 1)
+                        #print("prev is: %s"%prev)
+                    runningN = delayedLine
+            out(runningN)
+        #Checking for conversions:
+        
 
 for line in delayedOut:
     print(line)
