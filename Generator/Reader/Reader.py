@@ -8,7 +8,8 @@ if os.path.exists(propsLoc) != True:
     file.write("{\n")
     file.write('"letters": ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"],\n')
     file.write('"dummies": [],\n') #Dummies are characters that are ignored in reading, and in writing are randomly placed throughout the document.
-    file.write('"isMultiLine": true,\n') #whether or not to expect multiline input or multiple single line inputs
+    file.write('"dummyPercentage": 20,\n')
+    file.write('"isMultiLine": false,\n') #whether or not to expect multiline input or multiple single line inputs
     file.write('"convertCase": true\n') #See Gihub issue #2: https://github.com/tfff1OFFICIAL/Basic-Cipherer/issues/2 - Upper / Lower case
     file.write("}")
     file.close()
@@ -83,10 +84,11 @@ while n != "":
                 elif letter not in dummyLetters:
                     delayedLine += letter
                 #Do some fancy prevLine stuff:
-                if int(prevLine) + 1 > len(valueLetters) - 1:
-                    prevLine = str(1)
-                else:
-                    prevLine = str(int(prevLine) + 1)
+                if letter not in dummyLetters:
+                    if int(prevLine) + 1 > len(valueLetters) - 1:
+                        prevLine = str(1)
+                    else:
+                        prevLine = str(int(prevLine) + 1)
                 #print("PrevLine is: %s"%prevLine)
             out(delayedLine)
         #Multiple Conversions on the same string (piling conversion on top of conversion):
@@ -113,10 +115,11 @@ while n != "":
                         elif letter not in dummyLetters:
                             delayedLine += letter
                         #Do some fancy prev stuff:
-                        if int(prev) + 1 > len(valueLetters) - 1:
-                            prev = str(1)
-                        else:
-                            prev = str(int(prev) + 1)
+                        if letter not in dummyLetters:
+                            if int(prev) + 1 > len(valueLetters) - 1:
+                                prev = str(1)
+                            else:
+                                prev = str(int(prev) + 1)
                         #print("prev is: %s"%prev)
                     runningN = delayedLine
             out(runningN)
