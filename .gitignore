@@ -211,5 +211,6 @@ GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
 
-#start.bat's
+#custom stuff
 start.bat
+cipherProperties.json
