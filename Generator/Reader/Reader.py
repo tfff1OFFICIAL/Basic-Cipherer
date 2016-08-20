@@ -28,7 +28,6 @@ for dummy in properties["dummies"]:
     dummyLetters.append(dummy)
 convertCase = properties["convertCase"]
 isMultiLine = properties["isMultiLine"]
-print("To execute commands, enter /COMMAND <command> instead of the movementNumber")
 
 def getNumber(letter):
     return valueLetters.index(letter)
